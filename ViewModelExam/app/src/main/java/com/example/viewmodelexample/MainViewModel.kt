@@ -1,4 +1,4 @@
-package com.example.viewmodelexam
+package com.example.viewmodelexample
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -9,12 +9,19 @@ import androidx.lifecycle.ViewModelProvider
  */
 class MainViewModel : ViewModel() {
     val TAG = "MainViewModel"
-    var userText = "view model 1"
+    private var count = 0
+
+    fun getCountText(): String {
+        return "click count : $count"
+    }
+
+    fun clickButton(): String {
+        return "click count : ${++count}"
+    }
 
     override fun onCleared() {
-        userText = ""
         Log.d(TAG, "## MainViewModel - onCleared() called!!")
-        Log.d(TAG, "## userText = $userText")
+        Log.d(TAG, "## count = $count")
         super.onCleared()
     }
 }
@@ -22,21 +29,28 @@ class MainViewModel : ViewModel() {
 /**
  * Custom view model example
  */
-class CustomViewModel(var userText: String) : ViewModel() {
+class CustomViewModel(var count: Int) : ViewModel() {
     val TAG: String = "CustomViewModel"
 
+    fun getCountText(): String {
+        return "click count : $count"
+    }
+
+    fun clickButton(): String {
+        return "click count : ${++count}"
+    }
+
     override fun onCleared() {
-        userText = ""
         Log.d(TAG, "## CustomViewModel - onCleared() called!!")
-        Log.d(TAG, "## userText = $userText")
+        Log.d(TAG, "## count = $count")
         super.onCleared()
     }
 }
 
-class CustomViewModelFactory(val userText: String) : ViewModelProvider.Factory {
+class CustomViewModelFactory(val count: Int) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(CustomViewModel::class.java)) {
-            return CustomViewModel(userText) as T
+            return CustomViewModel(count) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

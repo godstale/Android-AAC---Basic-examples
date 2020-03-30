@@ -1,4 +1,4 @@
-package com.example.viewmodelexam
+package com.example.viewmodelexample
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,15 +14,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // create view model
+        // create basic view model
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         // create custom view model
-        viewModelFactory = CustomViewModelFactory("view model 2")
+        viewModelFactory = CustomViewModelFactory(0)
         customViewModel = ViewModelProvider(this, viewModelFactory).get(CustomViewModel::class.java)
 
+        // init UI
+        text_desc1.text = viewModel.getCountText()
+        text_desc2.text = customViewModel.getCountText()
+
         // update UI
-        text_desc1.text = viewModel.userText
-        text_desc2.text = customViewModel.userText
+        button_class.setOnClickListener {
+            text_desc1.text = viewModel.clickButton()
+            text_desc2.text = customViewModel.clickButton()
+        }
     }
 }
